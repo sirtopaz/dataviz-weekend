@@ -10,12 +10,15 @@ body {
 h1 {
 	padding: 0 1rem;
 	margin:0 0 -.25rem;
+	color: #93138E;
 }
 
 h2 {
 	font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
 	padding: 0 1rem;
 	margin:0 0 -.25rem;
+	
+	color: #F08CEC;
 }
 
 h2::first-letter {
@@ -24,7 +27,7 @@ h2::first-letter {
 	font-family: "Lucinda Script", cursive;
 	font-size: 1.5em;
   font-weight: bold;
-  color: red;
+  color: #93138E;
 }
 
 rect {
@@ -43,7 +46,10 @@ div {
 }
 
 div.cloud {
-	width: 960px;
+	position:absolute;
+	top:40px;
+	width: calc(100% - 800px);
+	right:0;
 	padding: 1rem;
 }
 
@@ -64,10 +70,6 @@ div.cloud span {
 }
 
 div.cloud span.highlight {
-	position:fixed;
-	top:50%;
-	left:50%;
-
 	background:#666;
 	color:#fff !important;
 }
@@ -539,7 +541,18 @@ function actionIndex(activity) {
 
 var words = bd.append("div").attr("class", "cloud");
 
-var wordData = Object.keys(actions);
+var wordData = Object.keys(actions).sort(function (a, b) {
+	return actions[b].freq - actions[a].freq
+	/*
+	
+    if (a > b)
+      return 1;
+    if (a < b)
+      return -1;
+    // a must be equal to b
+    return 0;
+	*/
+});
 
 words.selectAll("span").data(wordData).enter()
 	.append("span")
