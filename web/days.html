@@ -8,6 +8,7 @@ body {
 }
 
 h1 {
+	font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
 	padding: 0 1rem;
 	margin:0 0 -.25rem;
 	color: #93138E;
@@ -26,14 +27,16 @@ h2::first-letter {
 	top: .35em;
 	font-family: "Lucinda Script", cursive;
 	font-size: 1.5em;
-  font-weight: bold;
-  color: #93138E;
+  	font-weight: bold;
+  	color: #93138E;
 }
 
 rect {
   stroke: rgba(0, 0, 0, 0);
   stroke-width: 1px;
   opacity:.5;
+  
+  cursor: pointer;
 }
 
 rect.highlight {
@@ -488,14 +491,14 @@ var nest = d3.nest()
 			.key(function(d) { return d.day;})
 			.entries(activity);
 
-var colors = d3.scale.category20();	
-//var colors = d3.scale.category20b();			
+//var colors = d3.scale.category20();	
+var colors = d3.scale.category20b();			
 //var colors = d3.scale.category20c();		
 			
-var days = bd.selectAll(".days").data(nest).enter().append("div").attr("class", "days");
+var days = bd.selectAll(".days").data(nest).enter().append("figure").attr("class", "days");
 
-days.selectAll("h2").data(function(d) {return [d];}).enter()
-	.append("h2")
+days.selectAll("figcaption").data(function(d) {return [d];}).enter()
+	.append("figcaption").append("h2")
 	.text(function(d) {return d.key});
 	
 var svg = days.selectAll("svg").data(function(d) {return [d]}).enter().append("svg")
@@ -510,6 +513,7 @@ svg.selectAll("rect").data(function(d) {return d.values}).enter().append("rect")
     .attr("height", z)
 	.attr("class", function(d) {return actionClass(d.activity);})
     .style("fill", function(d) { return colors(actionIndex(d.activity)) })
+	.on("click", showAction)
 	.transition()
       .duration(1500)
       .attr("transform", translate);
