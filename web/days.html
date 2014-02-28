@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Days</title>
+<style>
+
+body {
+  margin: 0;
+}
+
+h1 {
+	padding: 0 1rem;
+	margin:0 0 -.25rem;
+}
+
+h2 {
+	font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+	padding: 0 1rem;
+	margin:0 0 -.25rem;
+}
+h2::first-letter {
+	position:relative;
+	top: .35em;
+	font-family: "Lucinda Script", cursive;
+	font-size: 1.5em;
+  font-weight: bold;
+  color: red;
+}
+
+rect {
+  stroke: rgba(0, 0, 0, 0);
+  stroke-width: 1px;
+  opacity:.5;
+}
+
+rect.highlight {
+	stroke: #000;
+	opacity:1;
+}
+
+div {
+	/*border: 1px solid black;*/
+}
+
+div.cloud {
+	width: 960px;
+	padding: 1rem;
+}
+
+div.cloud span {
+	display:inline;
+	float:left;
+	
+	top:0;
+	left:0;
+	
+	font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+	padding: 0 .5rem;
+	text-transform: uppercase;
+	white-space:nowrap;
+	
+	cursor: pointer;
+	transition: top 1s, left 1s;
+}
+
+div.cloud span.highlight {
+	
+	position:fixed;
+	top:50%;
+	left:50%;
+	
+	
+	background:#666;
+	color:#fff !important;
+}
+
+svg {
+	/*border: 1px solid black;*/
+}
+
+</style>
+<body>
+<h1>Weekend Activities</h1>
+
+
+
+
+<script>
+
+var activity = [
+	{day:"Friday", hour:0, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:0, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:0, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:0, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:1, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:1, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:1, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:1, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:2, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:2, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:2, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:2, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:3, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:3, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:3, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:3, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:4, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:4, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:4, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:4, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:5, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:5, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:5, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:5, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:6, minute:0, activity:"wake", detail:"wake"},
+	{day:"Friday", hour:6, minute:15, activity:"snooze", detail:"snooze"},
+	{day:"Friday", hour:6, minute:30, activity:"snooze", detail:"snooze"},
+	{day:"Friday", hour:6, minute:45, activity:"snooze", detail:"snooze"},
+	{day:"Friday", hour:7, minute:0, activity:"shower", detail:"shower"},
+	{day:"Friday", hour:7, minute:15, activity:"shower", detail:"shower"},
+	{day:"Friday", hour:7, minute:30, activity:"shower", detail:"shower"},
+	{day:"Friday", hour:7, minute:45, activity:"cook", detail:"(Breakfast - Oatmeal)"},
+	{day:"Friday", hour:7, minute:45, activity:"cook", detail:"(Made Coffee)"},
+	{day:"Friday", hour:8, minute:0, activity:"ate", detail:"(Breakfast - Oatmeal)"},
+	{day:"Friday", hour:8, minute:0, activity:"drank", detail:"(Coffee)"},	
+	{day:"Friday", hour:8, minute:0, activity:"homework", detail:"(Setup Tracking)"},	
+	{day:"Friday", hour:8, minute:15, activity:"dressed", detail:"dressed"},
+	{day:"Friday", hour:8, minute:30, activity:"got ready", detail:"(For Work)"},
+	{day:"Friday", hour:8, minute:45, activity:"got ready", detail:"(For Work)"},
+	{day:"Friday", hour:9, minute:0, activity:"drive", detail:"(to work)"},	
+	{day:"Friday", hour:9, minute:15, activity:"drive", detail:"(to work"},
+	{day:"Friday", hour:9, minute:30, activity:"arrived", detail:"(at work)"},
+	{day:"Friday", hour:9, minute:30, activity:"cook", detail:"(Made Green Tea)"},
+	{day:"Friday", hour:9, minute:45, activity:"work", detail:"(Checked E-mails)"},
+	{day:"Friday", hour:9, minute:45, activity:"drank", detail:"(Green Tea)"},
+	{day:"Friday", hour:10, minute:0, activity:"internet", detail:"(Blogs and Twitter)"},	
+	{day:"Friday", hour:10, minute:0, activity:"drank", detail:"(Fizzy Water)"},
+	{day:"Friday", hour:10, minute:15, activity:"work", detail:"(Created Test Site for SVG image behavior)"},
+	{day:"Friday", hour:10, minute:30, activity:"work", detail:"(Created Test Site for SVG image behavior)"},
+	{day:"Friday", hour:10, minute:45, activity:"work", detail:"(Created Test Site for SVG image behavior)"},
+	{day:"Friday", hour:11, minute:00, activity:"work", detail:"(Created Test Site for SVG image behavior)"},	
+	{day:"Friday", hour:11, minute:15, activity:"video game", detail:"(Super Mario Cart)"},
+	{day:"Friday", hour:11, minute:30, activity:"work", detail:"(Created Test Site for SVG image behavior)"},
+	{day:"Friday", hour:11, minute:45, activity:"work", detail:"(Created Test Site for SVG image behavior)"},
+	{day:"Friday", hour:12, minute:00, activity:"work", detail:"(Created Test Site for SVG image behavior)"},
+	{day:"Friday", hour:12, minute:15, activity:"ate", detail:"(Lunch - Dan Dan Noodles)"},
+	{day:"Friday", hour:12, minute:30, activity:"ate", detail:"(Lunch - Dan Dan Noodles)"},
+	{day:"Friday", hour:12, minute:45, activity:"ate", detail:"(Lunch - Dan Dan Noodles)"},
+	{day:"Friday", hour:13, minute:00, activity:"ate", detail:"(Lunch - Dan Dan Noodles)"},		
+	{day:"Friday", hour:13, minute:15, activity:"video game", detail:"(Super Mario Cart)"},
+	{day:"Friday", hour:13, minute:30, activity:"walk", detail:"(To Doc Appt)"},
+	{day:"Friday", hour:13, minute:45, activity:"walk", detail:"(to Doc Appt)"},
+	{day:"Friday", hour:14, minute:0, activity:"doc appt", detail:"doc appt"},
+	{day:"Friday", hour:14, minute:15, activity:"doc appt", detail:"doc appt"},
+	{day:"Friday", hour:14, minute:30, activity:"doc appt", detail:"doc appt"},
+	{day:"Friday", hour:14, minute:45, activity:"doc appt", detail:"doc appt"},
+	{day:"Friday", hour:15, minute:0, activity:"walk", detail:"(to work)"},
+	{day:"Friday", hour:15, minute:15, activity:"walk", detail:"(to work)"},
+	{day:"Friday", hour:15, minute:30, activity:"arrived", detail:"(at work)"},
+	{day:"Friday", hour:15, minute:30, activity:"cook", detail:"(Made Tea)"},
+	{day:"Friday", hour:15, minute:45, activity:"drank", detail:"(Green Tea)"},
+	{day:"Friday", hour:15, minute:45, activity:"work", detail:"(Created Test Site for SVG image behavior)"},
+	{day:"Friday", hour:16, minute:0, activity:"work", detail:"(Created Test Site for SVG image behavior)"},
+	{day:"Friday", hour:16, minute:15, activity:"internet", detail:"(Blogs and Twitter)"},		
+	{day:"Friday", hour:16, minute:30, activity:"internet", detail:"(Blogs and Twitter)"},	
+	{day:"Friday", hour:16, minute:45, activity:"internet", detail:"(Blogs and Twitter)"},	
+	{day:"Friday", hour:17, minute:0,  activity:"walk", detail:"(to store)"},
+	{day:"Friday", hour:17, minute:15, activity:"shopped", detail:"(for groceries)"},		
+	{day:"Friday", hour:17, minute:30, activity:"shopped", detail:"(for groceries)"},	
+	{day:"Friday", hour:17, minute:45, activity:"shopped", detail:"(for groceries)"},	
+	{day:"Friday", hour:17, minute:45, activity:"T", detail:"(during down pour thunder and lightning)"},	
+	{day:"Friday", hour:18, minute:0,  activity:"T", detail:"T"},
+	{day:"Friday", hour:18, minute:15, activity:"T", detail:"T"},		
+	{day:"Friday", hour:18, minute:30, activity:"T", detail:"T"},	
+	{day:"Friday", hour:18, minute:30, activity:"arrived", detail:"(home)"},
+	{day:"Friday", hour:18, minute:45, activity:"drank", detail:"(glass of malbec)"},	
+	{day:"Friday", hour:19, minute:0, activity:"drank", detail:"(glass of malbec)"},
+	{day:"Friday", hour:19, minute:0,  activity:"tv", detail:"tv"},
+	{day:"Friday", hour:19, minute:0,  activity:"internet", detail:"internet"},
+	{day:"Friday", hour:19, minute:15,  activity:"tv", detail:"tv"},
+	{day:"Friday", hour:19, minute:15,  activity:"internet", detail:"internet"},
+	{day:"Friday", hour:19, minute:30,  activity:"tv", detail:"tv"},
+	{day:"Friday", hour:19, minute:30,  activity:"internet", detail:"internet"},
+	{day:"Friday", hour:19, minute:45,  activity:"tv", detail:"tv"},
+	{day:"Friday", hour:19, minute:45,  activity:"internet", detail:"internet"},
+	{day:"Friday", hour:20, minute:0,  activity:"tv", detail:"tv"},
+	{day:"Friday", hour:20, minute:0,  activity:"internet", detail:"internet"},
+	{day:"Friday", hour:20, minute:15,  activity:"tv", detail:"tv"},
+	{day:"Friday", hour:20, minute:15,  activity:"internet", detail:"internet"},
+	{day:"Friday", hour:20, minute:30,  activity:"cook", detail:"dinner"},
+	{day:"Friday", hour:20, minute:30,  activity:"cook", detail:"dinner"},
+	{day:"Friday", hour:20, minute:45,  activity:"ate", detail:"dinner"},	
+	{day:"Friday", hour:21, minute:0,  activity:"ate", detail:"dinner"},
+	{day:"Friday", hour:21, minute:0,  activity:"tv", detail:"tv"},					
+	{day:"Friday", hour:21, minute:15, activity:"tv", detail:"tv"},
+	{day:"Friday", hour:21, minute:15, activity:"internet", detail:"internet"},
+	{day:"Friday", hour:21, minute:30, activity:"tv", detail:"tv"},
+	{day:"Friday", hour:21, minute:30, activity:"internet", detail:"internet"},
+	{day:"Friday", hour:21, minute:45, activity:"tv", detail:"tv"},
+	{day:"Friday", hour:21, minute:45, activity:"internet", detail:"internet"},						
+	{day:"Friday", hour:22, minute:0, activity:"drank", detail:"(glass of malbec)"},
+	{day:"Friday", hour:22, minute:0, activity:"tv", detail:"tv"},
+	{day:"Friday", hour:22, minute:0, activity:"internet", detail:"internet"},
+	{day:"Friday", hour:22, minute:15, activity:"tv", detail:"tv"},
+	{day:"Friday", hour:22, minute:15, activity:"internet", detail:"internet"},
+	{day:"Friday", hour:22, minute:30, activity:"tv", detail:"tv"},
+	{day:"Friday", hour:22, minute:30, activity:"internet", detail:"internet"},
+	{day:"Friday", hour:22, minute:45, activity:"tv", detail:"tv"},
+	{day:"Friday", hour:22, minute:45, activity:"internet", detail:"internet"},	
+	{day:"Friday", hour:23, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:23, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:23, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Friday", hour:23, minute:45, activity:"sleep", detail:"sleep"},
+	
+	{day:"Saturday", hour:0, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:0, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:0, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:0, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:1, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:1, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:1, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:1, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:2, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:2, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:2, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:2, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:3, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:3, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:3, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:3, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:4, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:4, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:4, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:4, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:5, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:5, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:5, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:5, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:6, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:6, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:6, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:6, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:7, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:7, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:7, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:7, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:8, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:8, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:8, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:8, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:9, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Saturday", hour:9, minute:15, activity:"wake", detail:"wake"},
+	{day:"Saturday", hour:9, minute:30, activity:"cuddle", detail:"(with dog)"},
+	{day:"Saturday", hour:9, minute:45, activity:"took dog out", detail:"took dog out"},
+	{day:"Saturday", hour:9, minute:45, activity:"cook", detail:"(Made Coffee)"},
+	{day:"Saturday", hour:10, minute:0, activity:"drank", detail:"(Coffee)"},
+	{day:"Saturday", hour:10, minute:0, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:10, minute:15, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:10, minute:30, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:10, minute:45, activity:"cook", detail:"(Made Coffee)"},
+	{day:"Saturday", hour:10, minute:45, activity:"cook", detail:"(Breakfast)"},
+	{day:"Saturday", hour:11, minute:0, activity:"ate", detail:"(Breakfast)"},
+	{day:"Saturday", hour:11, minute:0, activity:"drank", detail:"(Coffee)"},
+	{day:"Saturday", hour:11, minute:0, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:11, minute:15, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:11, minute:30, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:11, minute:45, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:12, minute:0, activity:"shower", detail:"shower"},
+	{day:"Saturday", hour:12, minute:15, activity:"shower", detail:"shower"},
+	{day:"Saturday", hour:12, minute:30,  activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:12, minute:30,  activity:"internet", detail:"internet"},	
+	{day:"Saturday", hour:12, minute:45,  activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:12, minute:45,  activity:"internet", detail:"internet"},		
+	{day:"Saturday", hour:13, minute:0, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:13, minute:0, activity:"internet", detail:"internet"},
+	{day:"Saturday", hour:13, minute:15, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:13, minute:15, activity:"internet", detail:"internet"},
+	{day:"Saturday", hour:13, minute:30, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:13, minute:30, activity:"internet", detail:"internet"},	
+	{day:"Saturday", hour:13, minute:45, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:13, minute:45, activity:"internet", detail:"internet"},	
+	{day:"Saturday", hour:14, minute:0, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:14, minute:0, activity:"internet", detail:"internet"},
+	{day:"Saturday", hour:14, minute:15, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:14, minute:15, activity:"internet", detail:"internet"},
+	{day:"Saturday", hour:14, minute:30, activity:"dressed", detail:"dressed"},
+	{day:"Saturday", hour:14, minute:45, activity:"got ready", detail:"to leave"},	
+	{day:"Saturday", hour:15, minute:0, activity:"drive", detail:"(to NH)"},
+	{day:"Saturday", hour:15, minute:15, activity:"drive", detail:"(to NH)"},
+	{day:"Saturday", hour:15, minute:30, activity:"drive", detail:"(to NH)"},
+	{day:"Saturday", hour:15, minute:45, activity:"drive", detail:"(to NH)"},
+	{day:"Saturday", hour:16, minute:0, activity:"visit", detail:"(with mother-in-law)"},
+	{day:"Saturday", hour:16, minute:15, activity:"visit", detail:"(with mother-in-law)"},
+	{day:"Saturday", hour:16, minute:30, activity:"ate", detail:"(sandwich)"},
+	{day:"Saturday", hour:16, minute:30, activity:"drank", detail:"(ginger ale)"},
+	{day:"Saturday", hour:16, minute:45, activity:"visit", detail:"(with mother-in-law)"},
+	{day:"Saturday", hour:17, minute:0, activity:"visit", detail:"(with mother-in-law)"},
+	{day:"Saturday", hour:17, minute:15, activity:"visit", detail:"(with mother-in-law)"},
+	{day:"Saturday", hour:17, minute:30, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:17, minute:45, activity:"tv", detail:"tv"},	
+	{day:"Saturday", hour:18, minute:0, activity:"ate", detail:"(cookie)"},
+	{day:"Saturday", hour:18, minute:0, activity:"read", detail:"read"},
+	{day:"Saturday", hour:18, minute:15, activity:"read", detail:"read"},
+	{day:"Saturday", hour:18, minute:30, activity:"read", detail:"read"},
+	{day:"Saturday", hour:18, minute:45, activity:"read", detail:"read"},
+	{day:"Saturday", hour:19, minute:0, activity:"read", detail:"read"},
+	{day:"Saturday", hour:19, minute:15, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:19, minute:30, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:19, minute:45, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:20, minute:0, activity:"drive", detail:"(to Boston)"},
+	{day:"Saturday", hour:20, minute:15, activity:"drive", detail:"(to Boston)"},
+	{day:"Saturday", hour:20, minute:30, activity:"drive", detail:"(to Boston)"},
+	{day:"Saturday", hour:20, minute:45, activity:"shopped", detail:"(groceries)"},
+	{day:"Saturday", hour:21, minute:0, activity:"shopped", detail:"(groceries)"},	
+	{day:"Saturday", hour:21, minute:15, activity:"drive", detail:"(to home)"},
+	{day:"Saturday", hour:21, minute:30, activity:"drive", detail:"(to home)"},
+	{day:"Saturday", hour:21, minute:30, activity:"arrived", detail:"(home)"},
+	{day:"Saturday", hour:21, minute:45, activity:"ate", detail:"(dinner)"},	
+	{day:"Saturday", hour:21, minute:45, activity:"tv", detail:"tv"},	
+	{day:"Saturday", hour:22, minute:0, activity:"read", detail:"read"},
+	{day:"Saturday", hour:22, minute:15, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:22, minute:30, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:22, minute:45, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:22, minute:45, activity:"drank", detail:"(cocktail)"},
+	{day:"Saturday", hour:22, minute:45, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:23, minute:0, activity:"drank", detail:"(cocktail)"},
+	{day:"Saturday", hour:23, minute:0, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:23, minute:15, activity:"drank", detail:"(cocktail)"},
+	{day:"Saturday", hour:23, minute:15, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:23, minute:30, activity:"tv", detail:"tv"},
+	{day:"Saturday", hour:23, minute:45, activity:"tv", detail:"tv"},
+
+	{day:"Sunday", hour:0, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:0, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:0, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:0, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:1, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:1, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:1, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:1, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:2, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:2, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:2, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:2, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:3, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:3, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:3, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:3, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:4, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:4, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:4, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:4, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:5, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:5, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:5, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:5, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:6, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:6, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:6, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:6, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:7, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:7, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:7, minute:30, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:7, minute:45, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:8, minute:0, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:8, minute:15, activity:"sleep", detail:"sleep"},
+	{day:"Sunday", hour:8, minute:30, activity:"wake", detail:"wake"},
+	{day:"Sunday", hour:8, minute:45, activity:"drank", detail:"(Coffee)"},	
+	{day:"Sunday", hour:8, minute:45, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:9, minute:0,  activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:9, minute:15, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:9, minute:30, activity:"ate", detail:"(Breakfast)"},
+	{day:"Sunday", hour:9, minute:30, activity:"drank", detail:"(Coffee)"},	
+	{day:"Sunday", hour:9, minute:30, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:9, minute:45, activity:"ate", detail:"(Breakfast)"},
+	{day:"Sunday", hour:9, minute:45, activity:"drank", detail:"(Coffee)"},	
+	{day:"Sunday", hour:9, minute:45, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:10, minute:0, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:10, minute:0, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:10, minute:15, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:10, minute:15, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:10, minute:30, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:10, minute:30, activity:"internet", detail:"internet"},	
+	{day:"Sunday", hour:10, minute:45, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:10, minute:45, activity:"internet", detail:"internet"},	
+	{day:"Sunday", hour:11, minute:0, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:11, minute:0, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:11, minute:15, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:11, minute:15, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:11, minute:30, activity:"shower", detail:"shower"},	
+	{day:"Sunday", hour:11, minute:45, activity:"shower", detail:"shower"},
+	{day:"Sunday", hour:11, minute:45, activity:"dressed", detail:"dressed"},	
+	{day:"Sunday", hour:12, minute:0, activity:"dressed", detail:"dressed"},
+	{day:"Sunday", hour:12, minute:15, activity:"got ready", detail:"got ready"},
+	{day:"Sunday", hour:12, minute:15, activity:"cook", detail:"(Made coffee)"},
+	{day:"Sunday", hour:12, minute:30, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:12, minute:30, activity:"drank", detail:"(coffee)"},
+	{day:"Sunday", hour:12, minute:30, activity:"ate", detail:"(almonds)"},
+	{day:"Sunday", hour:12, minute:45, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:12, minute:45, activity:"cuddle", detail:"(with dog)"},
+	{day:"Sunday", hour:13, minute:0, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:13, minute:0, activity:"cuddle", detail:"(with dog)"},	
+	{day:"Sunday", hour:13, minute:15, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:13, minute:15, activity:"cuddle", detail:"(with dog)"},
+	{day:"Sunday", hour:13, minute:30, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:13, minute:45, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:14, minute:0, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:14, minute:15, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:14, minute:30, activity:"homework", detail:"homework"},	
+	{day:"Sunday", hour:14, minute:45, activity:"cook", detail:"(Banana Bread)"},
+	{day:"Sunday", hour:15, minute:0, activity:"cook", detail:"(Banana Bread)"},
+	{day:"Sunday", hour:15, minute:15, activity:"cook", detail:"(Banana Bread)"},
+	{day:"Sunday", hour:15, minute:30, activity:"clean", detail:"clean"},
+	{day:"Sunday", hour:15, minute:45, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:15, minute:45, activity:"read", detail:"read"},
+	{day:"Sunday", hour:16, minute:0, activity:"cook", detail:"(Bagel)"},
+	{day:"Sunday", hour:16, minute:0, activity:"ate", detail:"(Bagel)"},		
+	{day:"Sunday", hour:16, minute:15, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:16, minute:15, activity:"read", detail:"read"},
+	{day:"Sunday", hour:16, minute:30, activity:"cook", detail:"(Bread out of oven)"},
+	{day:"Sunday", hour:16, minute:30, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:16, minute:30, activity:"read", detail:"read"},
+	{day:"Sunday", hour:16, minute:45, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:16, minute:45, activity:"read", detail:"read"},
+	{day:"Sunday", hour:17, minute:0, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:17, minute:15, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:17, minute:30, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:17, minute:30, activity:"cook", detail:"(Made Tea)"},
+	{day:"Sunday", hour:17, minute:45, activity:"homework", detail:"homework"},
+	{day:"Sunday", hour:17, minute:45, activity:"drank", detail:"(Tea)"},
+	{day:"Sunday", hour:18, minute:0, activity:"backup", detail:"pictures"},
+	{day:"Sunday", hour:18, minute:15, activity:"backup", detail:"pictures"},
+	{day:"Sunday", hour:18, minute:15, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:18, minute:30, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:18, minute:45, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:19, minute:0, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:19, minute:15, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:19, minute:30, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:19, minute:45, activity:"internet", detail:"internet"},	
+	{day:"Sunday", hour:20, minute:0, activity:"cook", detail:"(Dinner)"},
+	{day:"Sunday", hour:20, minute:15, activity:"cook", detail:"(Dinner)"},
+	{day:"Sunday", hour:20, minute:15, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:20, minute:30, activity:"cook", detail:"(Dinner)"},
+	{day:"Sunday", hour:20, minute:45, activity:"cook", detail:"(Dinner)"},
+	{day:"Sunday", hour:21, minute:0, activity:"ate", detail:"(Dinner)"},
+	{day:"Sunday", hour:21, minute:0, activity:"drank", detail:"(Fizzy Water)"},
+	{day:"Sunday", hour:21, minute:0, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:21, minute:15, activity:"ate", detail:"(Dinner)"},
+	{day:"Sunday", hour:21, minute:15, activity:"drank", detail:"(Fizzy Water)"},
+	{day:"Sunday", hour:21, minute:15, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:21, minute:30, activity:"ate", detail:"(Dinner)"},
+	{day:"Sunday", hour:21, minute:30, activity:"drank", detail:"(Fizzy Water)"},
+	{day:"Sunday", hour:21, minute:30, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:21, minute:30, activity:"internet", detail:"internet"},	
+	{day:"Sunday", hour:21, minute:45, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:21, minute:45, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:22, minute:0, activity:"ate", detail:"(Banana Bread)"},
+	{day:"Sunday", hour:22, minute:0, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:22, minute:0, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:22, minute:15, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:22, minute:15, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:22, minute:30, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:22, minute:30, activity:"internet", detail:"internet"},	
+	{day:"Sunday", hour:22, minute:45, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:22, minute:45, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:23, minute:0, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:23, minute:0, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:23, minute:15, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:23, minute:15, activity:"internet", detail:"internet"},
+	{day:"Sunday", hour:23, minute:30, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:23, minute:30, activity:"internet", detail:"internet"},	
+	{day:"Sunday", hour:23, minute:45, activity:"tv", detail:"tv"},
+	{day:"Sunday", hour:23, minute:45, activity:"internet", detail:"internet"}
+	
+	
+	
+]
+
+var actions = {};
+</script>
+
+
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var w = 960,
+    h = 130,
+    z = 24,
+    x = w / z,
+    y = h / z;
+
+var bd = d3.select("body")
+
+/*
+var svg = bd.append("svg")
+     .attr("width", w)
+     .attr("height", h)
+	 .attr("x", 0).attr("y", 0).attr("viewbox", function(d) {return "0 0 " + w + " " + h;});
+	
+*/
+var nest = d3.nest()
+			.key(function(d) { return d.day;})
+			.entries(activity);
+
+var colors = d3.scale.category20();	
+//var colors = d3.scale.category20b();			
+//var colors = d3.scale.category20c();		
+			
+var days = bd.selectAll(".days").data(nest).enter().append("div").attr("class", "days");
+
+
+
+days.selectAll("h2").data(function(d) {return [d];}).enter()
+	.append("h2")
+	.text(function(d) {return d.key});
+	
+var svg = days.selectAll("svg").data(function(d) {return [d]}).enter().append("svg")
+     .attr("width", w)
+     .attr("height", h)
+	 .attr("x", 0).attr("y", 0).attr("viewbox", function(d) {return "0 0 " + w + " " + h;});	
+	 
+svg.selectAll("rect").data(function(d) {return d.values}).enter().append("rect")
+	.attr("x", function(d) {return z*2;})
+	.attr("y", function(d) { return ((d.minute / 15) * (z+2)) + z })
+    .attr("width", z)
+    .attr("height", z)
+	.attr("class", function(d) {return actionClass(d.activity);})
+    .style("fill", function(d) { return colors(actionIndex(d.activity)) })
+	.transition()
+      .duration(1500)
+      .attr("transform", translate);
+
+function translate(d) {
+  return "translate(" + (d.hour * (z+2)) + ",0)";
+}
+
+
+function actionClass(action) {
+	return action.replace(/\s/gi, "");
+}
+
+
+function actionIndex(activity) {
+	
+	if(actions.hasOwnProperty(activity)) {
+		actions[activity].freq = actions[activity].freq +1;
+		return actions[activity].idx;
+	}
+	
+	var idx = Object.keys(actions).length;
+	
+	actions[activity] = {"idx":idx, "freq":0};
+	
+	return idx;
+}
+
+
+var words = bd.append("div").attr("class", "cloud");
+
+var wordData = Object.keys(actions);
+
+
+words.selectAll("span").data(wordData).enter()
+	.append("span")
+	.attr("class", function(d) {return actionClass(d);})
+	.attr("style", wordCloudStyle)
+	.on("click", showAction)
+	.text(function(d) {return d})
+	
+;
+	
+function wordCloudStyle(action) {
+	return "color:" + colors(actions[action].idx) + "; font-size:" +(1 + (actions[action].freq * .05)) + "rem";
+}
+
+function showAction(elem) {
+
+	//debugger;
+	d3.selectAll('.highlight').classed("highlight", false);
+
+	var ref = d3.select(this)
+	var clazz = ref.attr("class");
+	
+	d3.selectAll("." + actionClass(clazz)).classed("highlight", true);
+}
+
+//debugger; 
+	 
+	
+/*	
+
+svg.selectAll("rect")
+    .data(d3.range(24 * 4))
+  .enter().append("rect")
+    .attr("transform", translate)
+    .attr("width", z)
+    .attr("height", z)
+    .style("fill", function(d) { return d3.hsl(d % x / x * 360, 1, Math.floor(d / x) / y); })
+    .on("mouseover", mouseover);
+
+function translate(d) {
+  return "translate(" + (d % x) * z + "," + Math.floor(d / x) * z + ")";
+}
+
+function mouseover(d) {
+  this.parentNode.appendChild(this);
+
+  d3.select(this)
+      .style("pointer-events", "none")
+    .transition()
+      .duration(750)
+      .attr("transform", "translate(480,480)scale(23)rotate(180)")
+    .transition()
+      .delay(1500)
+      .attr("transform", "translate(240,240)scale(0)")
+      .style("fill-opacity", 0)
+      .remove();
+}
+*/
+
+</script>
+
+</body>
+</html>
