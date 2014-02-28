@@ -17,6 +17,7 @@ h2 {
 	padding: 0 1rem;
 	margin:0 0 -.25rem;
 }
+
 h2::first-letter {
 	position:relative;
 	top: .35em;
@@ -63,12 +64,10 @@ div.cloud span {
 }
 
 div.cloud span.highlight {
-	
 	position:fixed;
 	top:50%;
 	left:50%;
-	
-	
+
 	background:#666;
 	color:#fff !important;
 }
@@ -81,11 +80,7 @@ svg {
 <body>
 <h1>Weekend Activities</h1>
 
-
-
-
 <script>
-
 var activity = [
 	{day:"Friday", hour:0, minute:0, activity:"sleep", detail:"sleep"},
 	{day:"Friday", hour:0, minute:15, activity:"sleep", detail:"sleep"},
@@ -470,9 +465,6 @@ var activity = [
 	{day:"Sunday", hour:23, minute:30, activity:"internet", detail:"internet"},	
 	{day:"Sunday", hour:23, minute:45, activity:"tv", detail:"tv"},
 	{day:"Sunday", hour:23, minute:45, activity:"internet", detail:"internet"}
-	
-	
-	
 ]
 
 var actions = {};
@@ -490,14 +482,6 @@ var w = 960,
     y = h / z;
 
 var bd = d3.select("body")
-
-/*
-var svg = bd.append("svg")
-     .attr("width", w)
-     .attr("height", h)
-	 .attr("x", 0).attr("y", 0).attr("viewbox", function(d) {return "0 0 " + w + " " + h;});
-	
-*/
 var nest = d3.nest()
 			.key(function(d) { return d.day;})
 			.entries(activity);
@@ -507,8 +491,6 @@ var colors = d3.scale.category20();
 //var colors = d3.scale.category20c();		
 			
 var days = bd.selectAll(".days").data(nest).enter().append("div").attr("class", "days");
-
-
 
 days.selectAll("h2").data(function(d) {return [d];}).enter()
 	.append("h2")
@@ -559,23 +541,18 @@ var words = bd.append("div").attr("class", "cloud");
 
 var wordData = Object.keys(actions);
 
-
 words.selectAll("span").data(wordData).enter()
 	.append("span")
 	.attr("class", function(d) {return actionClass(d);})
 	.attr("style", wordCloudStyle)
 	.on("click", showAction)
-	.text(function(d) {return d})
-	
-;
+	.text(function(d) {return d});
 	
 function wordCloudStyle(action) {
 	return "color:" + colors(actions[action].idx) + "; font-size:" +(1 + (actions[action].freq * .05)) + "rem";
 }
 
 function showAction(elem) {
-
-	//debugger;
 	d3.selectAll('.highlight').classed("highlight", false);
 
 	var ref = d3.select(this)
@@ -583,40 +560,6 @@ function showAction(elem) {
 	
 	d3.selectAll("." + actionClass(clazz)).classed("highlight", true);
 }
-
-//debugger; 
-	 
-	
-/*	
-
-svg.selectAll("rect")
-    .data(d3.range(24 * 4))
-  .enter().append("rect")
-    .attr("transform", translate)
-    .attr("width", z)
-    .attr("height", z)
-    .style("fill", function(d) { return d3.hsl(d % x / x * 360, 1, Math.floor(d / x) / y); })
-    .on("mouseover", mouseover);
-
-function translate(d) {
-  return "translate(" + (d % x) * z + "," + Math.floor(d / x) * z + ")";
-}
-
-function mouseover(d) {
-  this.parentNode.appendChild(this);
-
-  d3.select(this)
-      .style("pointer-events", "none")
-    .transition()
-      .duration(750)
-      .attr("transform", "translate(480,480)scale(23)rotate(180)")
-    .transition()
-      .delay(1500)
-      .attr("transform", "translate(240,240)scale(0)")
-      .style("fill-opacity", 0)
-      .remove();
-}
-*/
 
 </script>
 
